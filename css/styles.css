@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 body {
     display: flex;
     justify-content: center;
+    font-family: 'Montserrat', sans-serif;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -18,11 +20,14 @@ body {
 }
 
 .game-card {
+    display: flex;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .game-card img {
