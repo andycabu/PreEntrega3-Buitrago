@@ -11,8 +11,21 @@
       <h1>Ahorcado</h1>
       <div id="word-display"></div>
       <div id="guesses">Tus intentos:</div>
-      <input type="text" id="letter-input" placeholder="Ingresa una letra" />
-      <button id="guess-button">Adivinar</button>
+      <div class="flex">
+        <input
+          class="minimal-input p-2 outline-none border-b-2 border-gray-700 bg-transparent focus:border-emerald-400"
+          maxlength="1"
+          type="text"
+          id="letter-input"
+          placeholder="Ingresa una letra"
+          oninput="checkInput()" />
+        <button
+          class="button ml-4 px-4 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
+          id="guess-button"
+          disabled>
+          Adivinar
+        </button>
+      </div>
     </section>
 
     <script src="/js/hanged.js"></script>
