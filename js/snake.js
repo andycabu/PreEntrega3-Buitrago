@@ -2,8 +2,8 @@ const snake = document.getElementById("snake");
 const food = document.getElementById("food");
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
-const boardWidth = Math.floor(screenWidth * 0.8);
-const boardHeight = Math.floor(screenHeight * 0.8);
+const boardWidth = Math.floor(screenWidth * 0.5);
+const boardHeight = Math.floor(screenHeight * 0.5);
 
 let snakeX = 0;
 let snakeY = 0;
@@ -114,7 +114,7 @@ function gameLoop() {
   }
 
   updateSnakePosition();
-  setTimeout(gameLoop, 100);
+  setTimeout(gameLoop, 80);
 }
 
 updateFoodPosition();
