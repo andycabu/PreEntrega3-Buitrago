@@ -12,7 +12,6 @@ let foodY = 0;
 let snakeBody = [];
 let direction = "";
 let gameStarted = false;
-let eaten = false;
 
 function updateSnakePosition() {
   snake.style.left = snakeX + "px";
@@ -21,16 +20,14 @@ function updateSnakePosition() {
   snakeBodyContainer.innerHTML = "";
   console.log(snakeBody);
 
-  if (eaten === true) {
-    for (let i = 0; i < snakeBody.length; i++) {
-      console.log(snakeBody);
-      const segment = snakeBody[i];
-      const segmentElement = document.createElement("div");
-      segmentElement.className = "snake-segment";
-      segmentElement.style.left = segment.x + "px";
-      segmentElement.style.top = segment.y + "px";
-      snakeBodyContainer.appendChild(segmentElement);
-    }
+  for (let i = 0; i < snakeBody.length; i++) {
+    console.log(snakeBody);
+    const segment = snakeBody[i];
+    const segmentElement = document.createElement("div");
+    segmentElement.className = "snake-segment";
+    segmentElement.style.left = segment.x + "px";
+    segmentElement.style.top = segment.y + "px";
+    snakeBodyContainer.appendChild(segmentElement);
   }
 
   for (let i = snakeBody.length - 1; i > 0; i--) {
@@ -45,6 +42,14 @@ function isCollisionWithBoard() {
     snakeX < 0 || snakeY < 0 || snakeX >= boardWidth || snakeY >= boardHeight
   );
 }
+function isSelfCollision() {
+  for (let i = 1; i < snakeBody.length; i++) {
+    if (snakeX === snakeBody[i].x && snakeY === snakeBody[i].y) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function updateFoodPosition() {
   foodX = Math.floor(Math.random() * (boardWidth / 20)) * 20;
@@ -53,7 +58,6 @@ function updateFoodPosition() {
   food.style.top = foodY + "px";
 }
 function growSnake() {
-  eaten = true;
   snakeBody.push({ x: snakeX, y: snakeY });
 }
 
@@ -79,7 +83,6 @@ function resetGame() {
   snakeBody = [];
   direction = "";
   gameStarted = false;
-  eaten = false;
 
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
@@ -89,7 +92,7 @@ function resetGame() {
 }
 
 function gameLoop() {
-  if (isCollisionWithBoard()) {
+  if (isCollisionWithBoard() || isSelfCollision()) {
     console.log("Game Over!");
     resetGame();
     return;

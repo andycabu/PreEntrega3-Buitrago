@@ -98,6 +98,7 @@ h1 {
   height: 20px;
   background-color: red;
   position: absolute;
+  border-radius: 99px;
 }
 .snake-segment {
   position: absolute;
