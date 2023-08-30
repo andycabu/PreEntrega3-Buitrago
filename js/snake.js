@@ -9,19 +9,37 @@ let snakeX = 0;
 let snakeY = 0;
 let foodX = 0;
 let foodY = 0;
-let snakeBody = [{ x: snakeX, y: snakeY }];
+let snakeBody = [];
 let direction = "";
 let gameStarted = false;
+let eaten = false;
 
 function updateSnakePosition() {
-  for (let i = snakeBody.length - 1; i > 0; i--) {
-    snakeBody[i] = { ...snakeBody[i - 1] };
-  }
-  snakeBody[0] = { x: snakeX, y: snakeY };
-
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
+  const snakeBodyContainer = document.getElementById("snake-body-container");
+  snakeBodyContainer.innerHTML = "";
+  console.log(snakeBody);
+
+  if (eaten === true) {
+    for (let i = 0; i < snakeBody.length; i++) {
+      console.log(snakeBody);
+      const segment = snakeBody[i];
+      const segmentElement = document.createElement("div");
+      segmentElement.className = "snake-segment";
+      segmentElement.style.left = segment.x + "px";
+      segmentElement.style.top = segment.y + "px";
+      snakeBodyContainer.appendChild(segmentElement);
+    }
+  }
+
+  for (let i = snakeBody.length - 1; i > 0; i--) {
+    snakeBody[i].x = snakeBody[i - 1].x;
+    snakeBody[i].y = snakeBody[i - 1].y;
+  }
+  snakeBody[0] = { x: snakeX, y: snakeY };
 }
+
 function isCollisionWithBoard() {
   return (
     snakeX < 0 || snakeY < 0 || snakeX >= boardWidth || snakeY >= boardHeight
@@ -33,6 +51,10 @@ function updateFoodPosition() {
   foodY = Math.floor(Math.random() * (boardHeight / 20)) * 20;
   food.style.left = foodX + "px";
   food.style.top = foodY + "px";
+}
+function growSnake() {
+  eaten = true;
+  snakeBody.push({ x: snakeX, y: snakeY });
 }
 
 function handleKeyPress(event) {
@@ -54,12 +76,14 @@ function handleKeyPress(event) {
 function resetGame() {
   snakeX = 0;
   snakeY = 0;
-  snakeBody = [{ x: snakeX, y: snakeY }];
+  snakeBody = [];
   direction = "";
   gameStarted = false;
+  eaten = false;
 
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
+  updateSnakePosition();
 
   updateFoodPosition();
 }
@@ -70,6 +94,7 @@ function gameLoop() {
     resetGame();
     return;
   }
+
   if (direction === "up") {
     snakeY -= 20;
   } else if (direction === "down") {
@@ -81,7 +106,7 @@ function gameLoop() {
   }
 
   if (snakeX === foodX && snakeY === foodY) {
-    snakeBody.push({ x: snakeX, y: snakeY });
+    growSnake();
     updateFoodPosition();
   }
 
