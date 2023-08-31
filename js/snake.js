@@ -31,37 +31,6 @@ let level = 0;
 let touchStartX = 0;
 let touchStartY = 0;
 
-function handleTouchStart(event) {
-  const touch = event.touches[0];
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-}
-
-function handleTouchMove(event) {
-  if (!collision && gameStarted) {
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0 && direction !== "left") {
-        direction = "right";
-      } else if (deltaX < 0 && direction !== "right") {
-        direction = "left";
-      }
-    } else {
-      if (deltaY > 0 && direction !== "up") {
-        direction = "down";
-      } else if (deltaY < 0 && direction !== "down") {
-        direction = "up";
-      }
-    }
-
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-  }
-}
-
 function levelPop() {
   if (level >= 1) {
     popElement.classList.remove("hidden");
@@ -158,11 +127,41 @@ function addScore() {
   }
 }
 
+function handleTouchMove(event) {
+  if (!collision) {
+    if (!gameStarted) {
+      gameStarted = true;
+      gameLoop();
+    }
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0 && direction !== "left") {
+        direction = "right";
+      } else if (deltaX < 0 && direction !== "right") {
+        direction = "left";
+      }
+    } else {
+      if (deltaY > 0 && direction !== "up") {
+        direction = "down";
+      } else if (deltaY < 0 && direction !== "down") {
+        direction = "up";
+      }
+    }
+
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }
+}
+
 function handleKeyPress(event) {
   if (!collision) {
     if (!gameStarted) {
       gameStarted = true;
-      gameLoop(); //
+      gameLoop();
     }
 
     if (event.key === "ArrowUp" && direction !== "down") {
@@ -238,5 +237,4 @@ function gameLoop(timestamp) {
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyPress);
-document.addEventListener("touchstart", handleTouchStart);
 document.addEventListener("touchmove", handleTouchMove);
