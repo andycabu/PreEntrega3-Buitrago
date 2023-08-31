@@ -18,14 +18,28 @@ let direction = "";
 let gameStarted = false;
 let score = 0;
 let lastTimestamp = 0;
-let frameInterval = 80;
+let frameInterval = 130;
 let collision = false;
+let level = 0;
 
 function playAgain() {
   collision = !collision;
   openOrCloseModal();
 }
+function velocityGame() {
+  if (score % 100 == 0) {
+    if (frameInterval > 30) {
+      frameInterval = frameInterval - 10;
+    }
+  }
+}
+function levelGame() {
+  if (score % 100 == 0) {
+    level = level + 1;
 
+    console.log("El valor de  " + level);
+  }
+}
 function updateSnakePosition() {
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
@@ -73,6 +87,8 @@ function growSnake() {
   snakeBody.push({ x: snakeX, y: snakeY });
   score = score + 10;
   addScore();
+  velocityGame();
+  levelGame();
 }
 
 function addScore() {
@@ -109,7 +125,9 @@ function resetGame() {
   snakeBody = [];
   direction = "";
   gameStarted = false;
+  frameInterval = 130;
   score = 0;
+  level = 0;
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
 
