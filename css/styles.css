@@ -2615,6 +2615,17 @@ h1 {
   }
 }
 
+@keyframes scaleAnimation {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
 .button:hover {
   background-color: #555;
 }
@@ -2680,6 +2691,7 @@ h1 {
   height: 20px;
   background-color: #333;
   position: absolute;
+  transition: left 0.2s ease, top 0.2s ease;
 }
 
 .food {
@@ -2688,6 +2700,8 @@ h1 {
   background-color: red;
   position: absolute;
   border-radius: 99px;
+  transition: left 0.2s ease, top 0.2s ease, transform 0.2s ease;
+  animation: scaleAnimation 1s infinite;
 }
 
 .snake-segment {

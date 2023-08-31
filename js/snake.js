@@ -11,6 +11,9 @@ const scoreFinalDisplay = document.getElementById("scoreFinalDisplay");
 const popElement = document.getElementById("pop");
 const levelDisplay = document.getElementById("levelDisplay");
 const levelFinalDisplay = document.getElementById("levelFinalDisplay");
+const eatSound = document.getElementById("eatSound");
+const gameOverSound = document.getElementById("gameOverSound");
+const levelUpSound = document.getElementById("levelUpSound");
 
 let snakeX = 0;
 let snakeY = 0;
@@ -53,7 +56,7 @@ function velocityGame() {
 function levelGame() {
   if (score % 100 == 0) {
     level = level + 1;
-
+    levelUpSound.play();
     levelPop();
   }
 }
@@ -106,6 +109,7 @@ function growSnake() {
   addScore();
   velocityGame();
   levelGame();
+  eatSound.play();
 }
 
 function addScore() {
@@ -166,6 +170,7 @@ function gameOver() {
   if (isCollisionWithBoard() || isSelfCollision()) {
     collision = true;
     openOrCloseModal();
+    gameOverSound.play();
     resetGame();
   }
 }
