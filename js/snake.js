@@ -8,6 +8,12 @@ const snakeBodyContainer = document.getElementById("snake-body-container");
 const modal = document.getElementById("modal");
 const scoreDisplay = document.getElementById("scoreDisplay");
 const scoreFinalDisplay = document.getElementById("scoreFinalDisplay");
+const popElement = document.getElementById("pop");
+const levelDisplay = document.getElementById("levelDisplay");
+const levelFinalDisplay = document.getElementById("levelFinalDisplay");
+const eatSound = document.getElementById("eatSound");
+const gameOverSound = document.getElementById("gameOverSound");
+const levelUpSound = document.getElementById("levelUpSound");
 
 let snakeX = 0;
 let snakeY = 0;
@@ -21,6 +27,20 @@ let lastTimestamp = 0;
 let frameInterval = 130;
 let collision = false;
 let level = 0;
+
+function levelPop() {
+  if (level >= 1) {
+    popElement.classList.remove("hidden");
+    setTimeout(() => {
+      popElement.classList.add("animate-fade-out");
+      setTimeout(() => {
+        popElement.classList.add("hidden");
+        popElement.classList.remove("animate-fade-out");
+      }, 300);
+    }, 3000);
+    levelDisplay.textContent = "Estas en el nivel: " + level;
+  }
+}
 
 function playAgain() {
   collision = !collision;
@@ -36,8 +56,8 @@ function velocityGame() {
 function levelGame() {
   if (score % 100 == 0) {
     level = level + 1;
-
-    console.log("El valor de  " + level);
+    levelUpSound.play();
+    levelPop();
   }
 }
 function updateSnakePosition() {
@@ -89,15 +109,18 @@ function growSnake() {
   addScore();
   velocityGame();
   levelGame();
+  eatSound.play();
 }
 
 function addScore() {
   if (score > 0) {
-    scoreDisplay.textContent = "Tu puntuacion es de: " + score;
-    scoreFinalDisplay.textContent = "Tu puntuacion es de: " + score;
+    scoreDisplay.textContent = "Tu puntuacion es de: " + score + " puntos";
+    scoreFinalDisplay.textContent =
+      "Tu puntuacion fue de: " + score + " puntos";
+    levelFinalDisplay.textContent = "Llegaste al nivel: " + level;
   } else {
-    scoreDisplay.textContent = "Tu puntuacion es de: " + 0;
-    scoreFinalDisplay.textContent = "Tu puntuacion es de: " + 0;
+    scoreDisplay.textContent = "Tu puntuacion es de: " + 0 + " puntos";
+    scoreFinalDisplay.textContent = "Tu puntuacion fue de: " + 0 + " puntos";
   }
 }
 
@@ -147,6 +170,7 @@ function gameOver() {
   if (isCollisionWithBoard() || isSelfCollision()) {
     collision = true;
     openOrCloseModal();
+    gameOverSound.play();
     resetGame();
   }
 }
