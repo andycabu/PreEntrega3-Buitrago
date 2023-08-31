@@ -127,7 +127,7 @@ function addScore() {
   }
 }
 
-function handleTouchMove(event) {
+function handleTouch(event) {
   if (!collision) {
     if (!gameStarted) {
       gameStarted = true;
@@ -135,8 +135,14 @@ function handleTouchMove(event) {
     }
 
     const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
+    const touchX = touch.clientX;
+    const touchY = touch.clientY;
+
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const deltaX = touchX - centerX;
+    const deltaY = touchY - centerY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0 && direction !== "left") {
@@ -151,9 +157,6 @@ function handleTouchMove(event) {
         direction = "up";
       }
     }
-
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
   }
 }
 
@@ -237,4 +240,4 @@ function gameLoop(timestamp) {
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyPress);
-document.addEventListener("touchmove", handleTouchMove);
+document.addEventListener("touchstart", handleTouch);
