@@ -28,10 +28,6 @@ let frameInterval = 130;
 let collision = false;
 let level = 0;
 
-// ... (código existente)
-
-// Reemplaza el evento "keydown" con eventos táctiles
-
 let touchStartX = 0;
 let touchStartY = 0;
 
@@ -48,14 +44,12 @@ function handleTouchMove(event) {
     const deltaY = touch.clientY - touchStartY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      // Movimiento horizontal
       if (deltaX > 0 && direction !== "left") {
         direction = "right";
       } else if (deltaX < 0 && direction !== "right") {
         direction = "left";
       }
     } else {
-      // Movimiento vertical
       if (deltaY > 0 && direction !== "up") {
         direction = "down";
       } else if (deltaY < 0 && direction !== "down") {
@@ -67,8 +61,6 @@ function handleTouchMove(event) {
     touchStartY = touch.clientY;
   }
 }
-
-// ... (resto del código)
 
 function levelPop() {
   if (level >= 1) {
