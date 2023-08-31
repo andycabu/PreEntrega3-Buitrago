@@ -6,6 +6,8 @@ const boardWidth = Math.floor(screenWidth * 0.5);
 const boardHeight = Math.floor(screenHeight * 0.5);
 const snakeBodyContainer = document.getElementById("snake-body-container");
 const modal = document.getElementById("modal");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const scoreFinalDisplay = document.getElementById("scoreFinalDisplay");
 
 let snakeX = 0;
 let snakeY = 0;
@@ -17,7 +19,6 @@ let gameStarted = false;
 let score = 0;
 let lastTimestamp = 0;
 let frameInterval = 80;
-
 let collision = false;
 
 function playAgain() {
@@ -71,6 +72,17 @@ function updateFoodPosition() {
 function growSnake() {
   snakeBody.push({ x: snakeX, y: snakeY });
   score = score + 10;
+  addScore();
+}
+
+function addScore() {
+  if (score > 0) {
+    scoreDisplay.textContent = "Tu puntuacion es de: " + score;
+    scoreFinalDisplay.textContent = "Tu puntuacion es de: " + score;
+  } else {
+    scoreDisplay.textContent = "Tu puntuacion es de: " + 0;
+    scoreFinalDisplay.textContent = "Tu puntuacion es de: " + 0;
+  }
 }
 
 function handleKeyPress(event) {
@@ -97,11 +109,11 @@ function resetGame() {
   snakeBody = [];
   direction = "";
   gameStarted = false;
-
+  score = 0;
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
-  updateSnakePosition();
 
+  updateSnakePosition();
   updateFoodPosition();
 }
 function openOrCloseModal() {
@@ -110,6 +122,7 @@ function openOrCloseModal() {
   } else {
     modal.classList.remove("hidden");
   }
+  addScore();
 }
 
 function gameOver() {
