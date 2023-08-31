@@ -28,6 +28,48 @@ let frameInterval = 130;
 let collision = false;
 let level = 0;
 
+// ... (código existente)
+
+// Reemplaza el evento "keydown" con eventos táctiles
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+function handleTouchStart(event) {
+  const touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}
+
+function handleTouchMove(event) {
+  if (!collision && gameStarted) {
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Movimiento horizontal
+      if (deltaX > 0 && direction !== "left") {
+        direction = "right";
+      } else if (deltaX < 0 && direction !== "right") {
+        direction = "left";
+      }
+    } else {
+      // Movimiento vertical
+      if (deltaY > 0 && direction !== "up") {
+        direction = "down";
+      } else if (deltaY < 0 && direction !== "down") {
+        direction = "up";
+      }
+    }
+
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }
+}
+
+// ... (resto del código)
+
 function levelPop() {
   if (level >= 1) {
     popElement.classList.remove("hidden");
@@ -204,3 +246,5 @@ function gameLoop(timestamp) {
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyPress);
+document.addEventListener("touchstart", handleTouchStart);
+document.addEventListener("touchmove", handleTouchMove);
