@@ -4,6 +4,8 @@ const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 const boardWidth = Math.floor(screenWidth * 0.5);
 const boardHeight = Math.floor(screenHeight * 0.5);
+const snakeBodyContainer = document.getElementById("snake-body-container");
+const modal = document.getElementById("modal");
 
 let snakeX = 0;
 let snakeY = 0;
@@ -12,29 +14,38 @@ let foodY = 0;
 let snakeBody = [];
 let direction = "";
 let gameStarted = false;
+let score = 0;
+let lastTimestamp = 0;
+let frameInterval = 80;
+
+let collision = false;
+
+function playAgain() {
+  collision = !collision;
+  openOrCloseModal();
+}
 
 function updateSnakePosition() {
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
-  const snakeBodyContainer = document.getElementById("snake-body-container");
+
   snakeBodyContainer.innerHTML = "";
-  console.log(snakeBody);
 
-  for (let i = 0; i < snakeBody.length; i++) {
-    console.log(snakeBody);
-    const segment = snakeBody[i];
-    const segmentElement = document.createElement("div");
-    segmentElement.className = "snake-segment";
-    segmentElement.style.left = segment.x + "px";
-    segmentElement.style.top = segment.y + "px";
-    snakeBodyContainer.appendChild(segmentElement);
+  if (gameStarted) {
+    for (let i = 0; i < snakeBody.length; i++) {
+      const segment = snakeBody[i];
+      const segmentElement = document.createElement("div");
+      segmentElement.className = "snake-segment";
+      segmentElement.style.left = segment.x + "px";
+      segmentElement.style.top = segment.y + "px";
+      snakeBodyContainer.appendChild(segmentElement);
+    }
+    for (let i = snakeBody.length - 1; i > 0; i--) {
+      snakeBody[i].x = snakeBody[i - 1].x;
+      snakeBody[i].y = snakeBody[i - 1].y;
+    }
+    snakeBody[0] = { x: snakeX, y: snakeY };
   }
-
-  for (let i = snakeBody.length - 1; i > 0; i--) {
-    snakeBody[i].x = snakeBody[i - 1].x;
-    snakeBody[i].y = snakeBody[i - 1].y;
-  }
-  snakeBody[0] = { x: snakeX, y: snakeY };
 }
 
 function isCollisionWithBoard() {
@@ -59,22 +70,25 @@ function updateFoodPosition() {
 }
 function growSnake() {
   snakeBody.push({ x: snakeX, y: snakeY });
+  score = score + 10;
 }
 
 function handleKeyPress(event) {
-  if (!gameStarted) {
-    gameStarted = true;
-    gameLoop(); //
-  }
+  if (!collision) {
+    if (!gameStarted) {
+      gameStarted = true;
+      gameLoop(); //
+    }
 
-  if (event.key === "ArrowUp" && direction !== "down") {
-    direction = "up";
-  } else if (event.key === "ArrowDown" && direction !== "up") {
-    direction = "down";
-  } else if (event.key === "ArrowLeft" && direction !== "right") {
-    direction = "left";
-  } else if (event.key === "ArrowRight" && direction !== "left") {
-    direction = "right";
+    if (event.key === "ArrowUp" && direction !== "down") {
+      direction = "up";
+    } else if (event.key === "ArrowDown" && direction !== "up") {
+      direction = "down";
+    } else if (event.key === "ArrowLeft" && direction !== "right") {
+      direction = "left";
+    } else if (event.key === "ArrowRight" && direction !== "left") {
+      direction = "right";
+    }
   }
 }
 function resetGame() {
@@ -90,31 +104,47 @@ function resetGame() {
 
   updateFoodPosition();
 }
+function openOrCloseModal() {
+  if (collision === false) {
+    modal.classList.add("hidden");
+  } else {
+    modal.classList.remove("hidden");
+  }
+}
 
-function gameLoop() {
+function gameOver() {
   if (isCollisionWithBoard() || isSelfCollision()) {
-    console.log("Game Over!");
+    collision = true;
+    openOrCloseModal();
     resetGame();
-    return;
+  }
+}
+
+function gameLoop(timestamp) {
+  if (timestamp - lastTimestamp >= frameInterval) {
+    lastTimestamp = timestamp;
+
+    gameOver();
+
+    if (direction === "up") {
+      snakeY -= 20;
+    } else if (direction === "down") {
+      snakeY += 20;
+    } else if (direction === "left") {
+      snakeX -= 20;
+    } else if (direction === "right") {
+      snakeX += 20;
+    }
+
+    if (snakeX === foodX && snakeY === foodY) {
+      growSnake();
+      updateFoodPosition();
+    }
+
+    updateSnakePosition();
   }
 
-  if (direction === "up") {
-    snakeY -= 20;
-  } else if (direction === "down") {
-    snakeY += 20;
-  } else if (direction === "left") {
-    snakeX -= 20;
-  } else if (direction === "right") {
-    snakeX += 20;
-  }
-
-  if (snakeX === foodX && snakeY === foodY) {
-    growSnake();
-    updateFoodPosition();
-  }
-
-  updateSnakePosition();
-  setTimeout(gameLoop, 80);
+  requestAnimationFrame(gameLoop);
 }
 
 updateFoodPosition();
