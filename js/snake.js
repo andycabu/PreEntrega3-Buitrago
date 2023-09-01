@@ -2,8 +2,13 @@ const snake = document.getElementById("snake");
 const food = document.getElementById("food");
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
-const boardWidth = Math.floor(screenWidth * 0.5);
-const boardHeight = Math.floor(screenHeight * 0.5);
+const gameContainer = document.getElementById("game-container");
+const board = window.getComputedStyle(gameContainer);
+const height = (parseInt(board.height) / screenHeight) * 100;
+const width = (parseInt(board.width) / screenWidth) * 100;
+
+const boardWidth = Math.floor(screenWidth * (width / 100));
+const boardHeight = Math.floor(screenHeight * (height / 100));
 const snakeBodyContainer = document.getElementById("snake-body-container");
 const modal = document.getElementById("modal");
 const scoreDisplay = document.getElementById("scoreDisplay");
@@ -187,7 +192,7 @@ function gameOver() {
 function gameLoop(timestamp) {
   if (timestamp - lastTimestamp >= frameInterval) {
     lastTimestamp = timestamp;
-
+    console.log("prueba del loop");
     gameOver();
 
     if (direction === "up") {
