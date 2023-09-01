@@ -3,12 +3,6 @@ const food = document.getElementById("food");
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 const gameContainer = document.getElementById("game-container");
-const board = window.getComputedStyle(gameContainer);
-const height = (parseInt(board.height) / screenHeight) * 100;
-const width = (parseInt(board.width) / screenWidth) * 100;
-
-const boardWidth = Math.floor(screenWidth * (width / 100));
-const boardHeight = Math.floor(screenHeight * (height / 100));
 const snakeBodyContainer = document.getElementById("snake-body-container");
 const modal = document.getElementById("modal");
 const scoreDisplay = document.getElementById("scoreDisplay");
@@ -32,7 +26,11 @@ let lastTimestamp = 0;
 let frameInterval = 130;
 let collision = false;
 let level = 0;
-
+let board = window.getComputedStyle(gameContainer);
+let height = (parseInt(board.height) / screenHeight) * 100;
+let width = (parseInt(board.width) / screenWidth) * 100;
+let boardWidth = Math.floor(screenWidth * (width / 100));
+let boardHeight = Math.floor(screenHeight * (height / 100));
 let touchStartX = 0;
 let touchStartY = 0;
 
@@ -48,6 +46,14 @@ function levelPop() {
     }, 3000);
     levelDisplay.textContent = "Estas en el nivel: " + level;
   }
+}
+
+function calculateBoardSize() {
+  board = window.getComputedStyle(gameContainer);
+  height = (parseInt(board.height) / screenHeight) * 100;
+  width = (parseInt(board.width) / screenWidth) * 100;
+  boardWidth = Math.floor(screenWidth * (width / 100));
+  boardHeight = Math.floor(screenHeight * (height / 100));
 }
 
 function playAgain() {
@@ -190,31 +196,35 @@ function gameOver() {
 }
 
 function gameLoop(timestamp) {
-  if (timestamp - lastTimestamp >= frameInterval) {
-    lastTimestamp = timestamp;
-    console.log("prueba del loop");
-    gameOver();
-
-    if (direction === "up") {
-      snakeY -= 20;
-    } else if (direction === "down") {
-      snakeY += 20;
-    } else if (direction === "left") {
-      snakeX -= 20;
-    } else if (direction === "right") {
-      snakeX += 20;
+  if (!collision) {
+    if (timestamp - lastTimestamp >= frameInterval) {
+      lastTimestamp = timestamp;
+      console.log("prueba del loop");
+      gameOver();
+  
+      if (direction === "up") {
+        snakeY -= 20;
+      } else if (direction === "down") {
+        snakeY += 20;
+      } else if (direction === "left") {
+        snakeX -= 20;
+      } else if (direction === "right") {
+        snakeX += 20;
+      }
+  
+      if (snakeX === foodX && snakeY === foodY) {
+        growSnake();
+        updateFoodPosition();
+      }
+  
+      updateSnakePosition();
     }
-
-    if (snakeX === foodX && snakeY === foodY) {
-      growSnake();
-      updateFoodPosition();
-    }
-
-    updateSnakePosition();
+  
+    requestAnimationFrame(gameLoop);
   }
-
-  requestAnimationFrame(gameLoop);
+ 
 }
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyPress);
+window.addEventListener('resize', calculateBoardSize);
