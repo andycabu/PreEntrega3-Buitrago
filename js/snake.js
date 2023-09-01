@@ -126,6 +126,26 @@ function growSnake() {
   eatSound.play();
 }
 
+function prueba(){
+
+  if (direction === "up") {
+    snakeY -= 20;
+    snake.classList.remove("rotate-0", "rotate-90", "rotate-90");
+    snake.classList.add("rotate-180");
+  } else if (direction === "down") {
+    snakeY += 20;
+    snake.classList.remove("rotate-180", "rotate-90", "rotate-90");
+    snake.classList.add("rotate-0");
+  } else if (direction === "left") {
+    snakeX -= 20;
+    snake.classList.remove("rotate-180", "rotate-0", "rotate-90");
+    snake.classList.add("rotate-90");
+  } else if (direction === "right") {
+    snakeX += 20;
+    snake.classList.remove("rotate-180", "rotate-0", "rotate-90");
+    snake.classList.add("-rotate-90");
+  }
+}
 function addScore() {
   if (score > 0) {
     scoreDisplay.textContent = "Tu puntuacion es de: " + score + " puntos";
@@ -173,7 +193,6 @@ function resetGame() {
   level = 0;
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
-
   updateSnakePosition();
   updateFoodPosition();
 }
@@ -202,15 +221,7 @@ function gameLoop(timestamp) {
       
       gameOver();
   
-      if (direction === "up") {
-        snakeY -= 20;
-      } else if (direction === "down") {
-        snakeY += 20;
-      } else if (direction === "left") {
-        snakeX -= 20;
-      } else if (direction === "right") {
-        snakeX += 20;
-      }
+    prueba()
   
       if (snakeX === foodX && snakeY === foodY) {
         growSnake();
