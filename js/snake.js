@@ -84,7 +84,7 @@ function updateSnakePosition() {
     for (let i = 0; i < snakeBody.length; i++) {
       const segment = snakeBody[i];
       const segmentElement = document.createElement("div");
-      segmentElement.className = "snake-segment";
+      segmentElement.className = "absolute w-5 h-5 bg-green-600";
       segmentElement.style.left = segment.x + "px";
       segmentElement.style.top = segment.y + "px";
       snakeBodyContainer.appendChild(segmentElement);
@@ -199,7 +199,7 @@ function gameLoop(timestamp) {
   if (!collision) {
     if (timestamp - lastTimestamp >= frameInterval) {
       lastTimestamp = timestamp;
-      console.log("prueba del loop");
+      
       gameOver();
   
       if (direction === "up") {
