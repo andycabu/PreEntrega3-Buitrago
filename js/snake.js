@@ -127,37 +127,10 @@ function addScore() {
   }
 }
 
-function handleTouch(event) {
-  if (!collision) {
-    if (!gameStarted) {
-      gameStarted = true;
-      gameLoop();
-    }
-
-    const touch = event.touches[0];
-    const touchX = touch.clientX;
-    const touchY = touch.clientY;
-
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
-    const deltaX = touchX - centerX;
-    const deltaY = touchY - centerY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0 && direction !== "left") {
-        direction = "right";
-      } else if (deltaX < 0 && direction !== "right") {
-        direction = "left";
-      }
-    } else {
-      if (deltaY > 0 && direction !== "up") {
-        direction = "down";
-      } else if (deltaY < 0 && direction !== "down") {
-        direction = "up";
-      }
-    }
-  }
+function handleScreenTouch(d) {
+  direction = d;
+  gameStarted = true;
+  gameLoop();
 }
 
 function handleKeyPress(event) {
@@ -240,4 +213,3 @@ function gameLoop(timestamp) {
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyPress);
-document.addEventListener("touchstart", handleTouch);
