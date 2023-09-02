@@ -37,10 +37,12 @@ let touchStartY = 0;
 function levelPop() {
   if (level >= 1) {
     popElement.classList.remove("hidden");
+    popElement.classList.add("flex")
     setTimeout(() => {
       popElement.classList.add("animate-fade-out");
       setTimeout(() => {
         popElement.classList.add("hidden");
+        popElement.classList.remove("flex")
         popElement.classList.remove("animate-fade-out");
       }, 300);
     }, 3000);
