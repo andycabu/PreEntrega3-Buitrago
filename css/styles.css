@@ -851,10 +851,6 @@ video {
   height: 100vh;
 }
 
-.min-h-full {
-  min-height: 100%;
-}
-
 .w-1\/2 {
   width: 50%;
 }
@@ -2823,8 +2819,8 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .max-\[768px\]\:block {
-    display: block;
+  .max-\[768px\]\:top-\[13\%\] {
+    top: 13%;
   }
 
   .max-\[768px\]\:flex {
@@ -2901,10 +2897,6 @@ h1 {
 
   .sm\:gap-4 {
     gap: 1rem;
-  }
-
-  .sm\:p-0 {
-    padding: 0px;
   }
 
   .sm\:p-6 {
