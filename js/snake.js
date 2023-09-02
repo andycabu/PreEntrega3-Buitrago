@@ -272,7 +272,7 @@ function gameLoop(timestamp) {
   
       updateSnakePosition();
     }
-    console.log(frameInterval)
+
     requestAnimationFrame(gameLoop);
   }
  

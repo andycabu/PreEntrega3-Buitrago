@@ -859,6 +859,10 @@ video {
   width: 3rem;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
 .w-40 {
   width: 10rem;
 }
@@ -873,10 +877,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-16 {
-  width: 4rem;
 }
 
 .max-w-lg {
@@ -2103,12 +2103,12 @@ video {
   padding-bottom: 1rem;
 }
 
-.pt-5 {
-  padding-top: 1.25rem;
-}
-
 .pt-4 {
   padding-top: 1rem;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
 }
 
 .text-left {
@@ -2631,10 +2631,6 @@ video {
   transition-duration: 150ms;
 }
 
-.duration-200 {
-  transition-duration: 200ms;
-}
-
 .duration-300 {
   transition-duration: 300ms;
 }
@@ -2753,6 +2749,10 @@ h1 {
   background-size: cover;
 }
 
+.svg-element {
+  transition: transform 0.2s ease-in-out;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -2839,16 +2839,8 @@ h1 {
     height: 100%;
   }
 
-  .max-\[768px\]\:h-\[80vh\] {
-    height: 80vh;
-  }
-
   .max-\[768px\]\:h-\[90vh\] {
     height: 90vh;
-  }
-
-  .max-\[768px\]\:h-\[85vh\] {
-    height: 85vh;
   }
 
   .max-\[768px\]\:w-\[90\%\] {
@@ -2952,3 +2944,4 @@ h1 {
     }
   }
 }
+
