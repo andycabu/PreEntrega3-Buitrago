@@ -89,3 +89,8 @@ h1 {
 background-image: url("../assets/images/7245677.jpg");
 background-size: cover;
 }
+
+.svg-element {
+  transition: transform 0.2s ease-in-out; 
+}
+

@@ -19,19 +19,28 @@
       </div>
     </div>
     <div
-      class="flex flex-col justify-center items-center h-screen max-[768px]:h-[80vh]"
+      class="flex flex-col justify-center items-center h-screen max-[768px]:h-[90vh]"
     >
-      <div class="w-full h-full flex flex-col items-center justify-center">
+      <div
+        class="w-full h-full flex flex-col items-center justify-center gap-1"
+      >
         <h1>Serpe Ágil</h1>
         <p id="scoreDisplay">Tu puntuacion es de: 0</p>
+        <a
+          href="../index.html"
+          class="ml-4 text-white transition duration-300 py-2 px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
+        >
+          Atras
+        </a>
+
         <div
           id="game-container"
           class="relative border-emerald-400 border-2 w-1/2 h-1/2 max-[768px]:w-[90%] max-[768px]:h-[100%]"
         >
-          <div class="flex w-">
+          <div class="flex">
             <svg
               id="snake"
-              class="z-20 w-8 h-8 absolute transition-left duration-200 ease-in-out transition-top rotate-0"
+              class="svg-element z-20 w-8 h-8 absolute rotate-0"
               enable-background="new 0 0 512 512"
               height="512"
               viewBox="0 0 512 512"
@@ -144,10 +153,10 @@
         </div>
       </div>
       <div
-        class="hidden max-[768px]:flex w-full flex-col items-center justify-center"
+        class="hidden max-[768px]:flex w-full flex-col items-center justify-center pt-4"
       >
         <svg
-          class="w-12 -rotate-90"
+          class="w-16 -rotate-90"
           enable-background="new 0 0 512 512"
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +175,7 @@
         </svg>
         <div class="flex gap-8">
           <svg
-            class="w-12 rotate-180"
+            class="w-16 rotate-180"
             enable-background="new 0 0 512 512"
             viewBox="0 0 512 512"
             xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +193,7 @@
             </g>
           </svg>
           <svg
-            class="w-12"
+            class="w-16"
             enable-background="new 0 0 512 512"
             viewBox="0 0 512 512"
             xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +212,7 @@
           </svg>
         </div>
         <svg
-          class="w-12 rotate-90"
+          class="w-16 rotate-90"
           enable-background="new 0 0 512 512"
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"

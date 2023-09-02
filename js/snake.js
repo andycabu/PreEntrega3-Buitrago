@@ -29,10 +29,14 @@ let level = 0;
 let board = window.getComputedStyle(gameContainer);
 let height = (parseInt(board.height) / screenHeight) * 100;
 let width = (parseInt(board.width) / screenWidth) * 100;
-let boardWidth = Math.floor(screenWidth * (width / 100));
-let boardHeight = Math.floor(screenHeight * (height / 100));
+let boardWidth = (screenWidth * (width / 100))-20
+let boardHeight = (screenHeight * (height / 100))-20
 let touchStartX = 0;
 let touchStartY = 0;
+let keyPressTimeout 
+let keyIsPressed = false;
+let increaseGameSpeedExecuted = false;
+let speedGame = 0
 
 function levelPop() {
   if (level >= 1) {
@@ -51,17 +55,18 @@ function levelPop() {
 }
 
 function calculateBoardSize() {
-  board = window.getComputedStyle(gameContainer);
-  height = (parseInt(board.height) / screenHeight) * 100;
-  width = (parseInt(board.width) / screenWidth) * 100;
-  boardWidth = Math.floor(screenWidth * (width / 100));
-  boardHeight = Math.floor(screenHeight * (height / 100));
+  board 
+  height 
+  width 
+  boardWidth 
+  boardHeight 
 }
 
 function playAgain() {
   collision = !collision;
   openOrCloseModal();
 }
+
 function velocityGame() {
   if (score % 100 == 0) {
     if (frameInterval > 30) {
@@ -69,6 +74,7 @@ function velocityGame() {
     }
   }
 }
+
 function levelGame() {
   if (score % 100 == 0) {
     level = level + 1;
@@ -76,6 +82,7 @@ function levelGame() {
     levelPop();
   }
 }
+
 function updateSnakePosition() {
   snake.style.left = snakeX + "px";
   snake.style.top = snakeY + "px";
@@ -104,6 +111,7 @@ function isCollisionWithBoard() {
     snakeX < 0 || snakeY < 0 || snakeX >= boardWidth || snakeY >= boardHeight
   );
 }
+
 function isSelfCollision() {
   for (let i = 1; i < snakeBody.length; i++) {
     if (snakeX === snakeBody[i].x && snakeY === snakeBody[i].y) {
@@ -119,6 +127,7 @@ function updateFoodPosition() {
   food.style.left = foodX + "px";
   food.style.top = foodY + "px";
 }
+
 function growSnake() {
   snakeBody.push({ x: snakeX, y: snakeY });
   score = score + 10;
@@ -148,6 +157,7 @@ function snakeMovement(){
     snake.classList.add("-rotate-90");
   }
 }
+
 function addScore() {
   if (score > 0) {
     scoreDisplay.textContent = "Tu puntuacion es de: " + score + " puntos";
@@ -166,7 +176,7 @@ function handleScreenTouch(d) {
   gameLoop();
 }
 
-function handleKeyPress(event) {
+function handleKeyDown(event){
   if (!collision) {
     if (!gameStarted) {
       gameStarted = true;
@@ -182,8 +192,37 @@ function handleKeyPress(event) {
     } else if (event.key === "ArrowRight" && direction !== "left") {
       direction = "right";
     }
+  if(!keyIsPressed){
+   keyIsPressed = true
+    keyPressTimeout = setTimeout(() => {
+      increaseGameSpeed();
+      increaseGameSpeedExecuted = true;
+    }, 100); 
+}}
+}
+
+function handleKeyUp() {
+  if(keyIsPressed){
+  clearTimeout(keyPressTimeout);
+  keyIsPressed = false;
+ 
+  }
+  if (increaseGameSpeedExecuted) {
+    restoreOriginalGameSpeed();
+    increaseGameSpeedExecuted = false;
   }
 }
+
+function increaseGameSpeed() {
+  speedGame = frameInterval
+frameInterval = 30
+
+}
+
+function restoreOriginalGameSpeed() {
+frameInterval = speedGame
+}
+
 function resetGame() {
   snakeX = 0;
   snakeY = 0;
@@ -198,6 +237,7 @@ function resetGame() {
   updateSnakePosition();
   updateFoodPosition();
 }
+
 function openOrCloseModal() {
   if (collision === false) {
     modal.classList.add("hidden");
@@ -232,12 +272,13 @@ function gameLoop(timestamp) {
   
       updateSnakePosition();
     }
-  
+
     requestAnimationFrame(gameLoop);
   }
  
 }
 
 updateFoodPosition();
-document.addEventListener("keydown", handleKeyPress);
+document.addEventListener("keydown", handleKeyDown);
+document.addEventListener("keyup", handleKeyUp);
 window.addEventListener('resize', calculateBoardSize);

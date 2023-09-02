@@ -11,7 +11,7 @@
       <h1>Ahorcado</h1>
       <div class="text-2xl mb-3" id="word-display"></div>
       <div class="text-lg mb-3" id="guesses">Tus intentos:</div>
-      <div class="flex">
+      <div class="flex items-center">
         <input
           class="minimal-input p-2 outline-none border-b-2 border-gray-700 bg-transparent focus:border-emerald-400"
           maxlength="1"
@@ -21,12 +21,18 @@
           oninput="checkInput()"
         />
         <button
-          class="button ml-4 px-4 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
+          class="button ml-4 py-2 px-8 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
           id="guess-button"
           disabled
         >
           Adivinar
         </button>
+        <a
+          href="../index.html"
+          class="ml-4 text-white transition duration-300 py-2 px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
+        >
+          Atras
+        </a>
       </div>
     </section>
 
