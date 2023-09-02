@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <section class="h-[100%] flex flex-col justify-center items-center">
+    <section class="h-[100%] flex flex-col justify-center items-center gap-4">
       <h1>Ahorcado</h1>
       <div class="text-2xl mb-3" id="word-display"></div>
       <div class="text-lg mb-3" id="guesses">Tus intentos:</div>
@@ -20,20 +20,22 @@
           placeholder="Ingresa una letra"
           oninput="checkInput()"
         />
-        <button
-          class="button ml-4 py-2 px-8 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
-          id="guess-button"
-          disabled
-        >
-          Adivinar
-        </button>
-        <a
-          href="../index.html"
-          class="ml-4 text-white transition duration-300 py-2 px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
-        >
-          Atras
-        </a>
+        <div>
+          <button
+            class="button ml-4 py-2 px-8 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
+            id="guess-button"
+            disabled
+          >
+            Adivinar
+          </button>
+        </div>
       </div>
+      <a
+        href="../index.html"
+        class="ml-4 text-white transition duration-300 py-[0.7rem] px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
+      >
+        Atras
+      </a>
     </section>
 
     <script src="/js/hanged.js"></script>
