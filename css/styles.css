@@ -875,6 +875,10 @@ video {
   width: 100%;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -2103,6 +2107,10 @@ video {
   padding-top: 1.25rem;
 }
 
+.pt-4 {
+  padding-top: 1rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -2833,6 +2841,14 @@ h1 {
 
   .max-\[768px\]\:h-\[80vh\] {
     height: 80vh;
+  }
+
+  .max-\[768px\]\:h-\[90vh\] {
+    height: 90vh;
+  }
+
+  .max-\[768px\]\:h-\[85vh\] {
+    height: 85vh;
   }
 
   .max-\[768px\]\:w-\[90\%\] {
