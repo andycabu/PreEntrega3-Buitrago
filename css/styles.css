@@ -716,14 +716,6 @@ video {
   margin-top: 0.75rem;
 }
 
-.ml-2 {
-  margin-left: 0.5rem;
-}
-
-.ml-8 {
-  margin-left: 2rem;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -831,16 +823,16 @@ video {
   height: 3rem;
 }
 
-.h-5 {
-  height: 1.25rem;
-}
-
 .h-52 {
   height: 13rem;
 }
 
 .h-6 {
   height: 1.5rem;
+}
+
+.h-8 {
+  height: 2rem;
 }
 
 .h-96 {
@@ -859,14 +851,6 @@ video {
   height: 100vh;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
-.h-8 {
-  height: 2rem;
-}
-
 .min-h-full {
   min-height: 100%;
 }
@@ -883,24 +867,16 @@ video {
   width: 10rem;
 }
 
-.w-5 {
-  width: 1.25rem;
-}
-
 .w-6 {
   width: 1.5rem;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.w-10 {
-  width: 2.5rem;
-}
-
 .w-8 {
   width: 2rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .max-w-lg {
@@ -1459,6 +1435,10 @@ video {
   gap: 1rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1948,11 +1928,6 @@ video {
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 
-.bg-green-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
-}
-
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
@@ -1970,11 +1945,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-75 {
@@ -2765,13 +2735,18 @@ h1 {
 }
 
 .food {
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: red;
   position: absolute;
   border-radius: 99px;
   transition: left 0.2s ease, top 0.2s ease, transform 0.2s ease;
   animation: scaleAnimation 1s infinite;
+}
+
+.prueba{
+  background-image: url("../assets/images/7245677.jpg");
+  background-size: cover;
 }
 
 @media (min-width: 640px) {
@@ -2850,6 +2825,10 @@ h1 {
 @media (max-width: 768px) {
   .max-\[768px\]\:block {
     display: block;
+  }
+
+  .max-\[768px\]\:flex {
+    display: flex;
   }
 
   .max-\[768px\]\:h-\[100\%\] {
@@ -2957,4 +2936,3 @@ h1 {
     }
   }
 }
-

@@ -84,7 +84,7 @@ function updateSnakePosition() {
     for (let i = 0; i < snakeBody.length; i++) {
       const segment = snakeBody[i];
       const segmentElement = document.createElement("div");
-      segmentElement.className = "absolute w-8 h-5 rounded-full bg-green-600";
+      segmentElement.className = " prueba absolute w-8 h-8 rounded-full";
       segmentElement.style.left = segment.x + "px";
       segmentElement.style.top = segment.y + "px";
       snakeBodyContainer.appendChild(segmentElement);

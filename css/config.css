@@ -76,8 +76,8 @@ h1 {
 }
 
 .food {
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: red;
   position: absolute;
   border-radius: 99px;
@@ -85,3 +85,7 @@ h1 {
   animation: scaleAnimation 1s infinite;
 }
 
+.prueba{
+background-image: url("../assets/images/7245677.jpg");
+background-size: cover;
+}
