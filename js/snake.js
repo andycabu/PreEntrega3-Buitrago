@@ -197,7 +197,7 @@ function handleKeyDown(event){
     keyPressTimeout = setTimeout(() => {
       increaseGameSpeed();
       increaseGameSpeedExecuted = true;
-    }, 1000); 
+    }, 100); 
 }}
 }
 
