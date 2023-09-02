@@ -84,7 +84,7 @@ function updateSnakePosition() {
     for (let i = 0; i < snakeBody.length; i++) {
       const segment = snakeBody[i];
       const segmentElement = document.createElement("div");
-      segmentElement.className = "absolute w-5 h-5 bg-green-600";
+      segmentElement.className = "absolute w-8 h-5 rounded-full bg-green-600";
       segmentElement.style.left = segment.x + "px";
       segmentElement.style.top = segment.y + "px";
       snakeBodyContainer.appendChild(segmentElement);
@@ -126,7 +126,7 @@ function growSnake() {
   eatSound.play();
 }
 
-function prueba(){
+function snakeMovement(){
 
   if (direction === "up") {
     snakeY -= 20;
@@ -221,7 +221,7 @@ function gameLoop(timestamp) {
       
       gameOver();
   
-    prueba()
+    snakeMovement()
   
       if (snakeX === foodX && snakeY === foodY) {
         growSnake();
