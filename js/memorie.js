@@ -32,7 +32,7 @@ function shuffle(array) {
 function createCard(imagePath) {
   const card = document.createElement("div");
   card.className =
-    "card relative w-40 h-52 bg-emerald-400 flex cursor-pointer border border-solid border-emerald-400  duration-500";
+    "card relative w-40 max-[768px]:w-24   max-[768px]:h-32 h-52 bg-emerald-400 flex cursor-pointer border border-solid border-emerald-400  duration-500";
 
   const front = document.createElement("div");
   front.className = "front";
