@@ -2867,12 +2867,24 @@ h1 {
     height: 90vh;
   }
 
+  .max-\[768px\]\:h-32 {
+    height: 8rem;
+  }
+
   .max-\[768px\]\:w-\[90\%\] {
     width: 90%;
   }
 
+  .max-\[768px\]\:w-24 {
+    width: 6rem;
+  }
+
   .max-\[768px\]\:grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .max-\[768px\]\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
