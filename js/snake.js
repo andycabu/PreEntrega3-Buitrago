@@ -29,24 +29,43 @@ let level = 0;
 let board = window.getComputedStyle(gameContainer);
 let height = (parseInt(board.height) / screenHeight) * 100;
 let width = (parseInt(board.width) / screenWidth) * 100;
-let boardWidth = (screenWidth * (width / 100))-20
-let boardHeight = (screenHeight * (height / 100))-20
+let boardWidth = screenWidth * (width / 100) - 20;
+let boardHeight = screenHeight * (height / 100) - 20;
 let touchStartX = 0;
 let touchStartY = 0;
-let keyPressTimeout 
+let keyPressTimeout;
 let keyIsPressed = false;
 let increaseGameSpeedExecuted = false;
-let speedGame = 0
+let speedGame = 0;
+let obstacles = [];
+
+function checkObstacleCollision() {
+  for (let i = 0; i < obstacles.length; i++) {
+    const obstacle = obstacles[i];
+    const obstacleRect = obstacle.getBoundingClientRect();
+    const snakeRect = snake.getBoundingClientRect();
+
+    if (
+      snakeRect.left < obstacleRect.right &&
+      snakeRect.right > obstacleRect.left &&
+      snakeRect.top < obstacleRect.bottom &&
+      snakeRect.bottom > obstacleRect.top
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function levelPop() {
   if (level >= 1) {
     popElement.classList.remove("hidden");
-    popElement.classList.add("flex")
+    popElement.classList.add("flex");
     setTimeout(() => {
       popElement.classList.add("animate-fade-out");
       setTimeout(() => {
         popElement.classList.add("hidden");
-        popElement.classList.remove("flex")
+        popElement.classList.remove("flex");
         popElement.classList.remove("animate-fade-out");
       }, 300);
     }, 3000);
@@ -55,11 +74,11 @@ function levelPop() {
 }
 
 function calculateBoardSize() {
-  board 
-  height 
-  width 
-  boardWidth 
-  boardHeight 
+  board;
+  height;
+  width;
+  boardWidth;
+  boardHeight;
 }
 
 function playAgain() {
@@ -77,9 +96,12 @@ function velocityGame() {
 
 function levelGame() {
   if (score % 100 == 0) {
-    level = level + 1;
+    level++;
     levelUpSound.play();
     levelPop();
+    if (level >= 5) {
+      createObstacle();
+    }
   }
 }
 
@@ -93,7 +115,8 @@ function updateSnakePosition() {
     for (let i = 0; i < snakeBody.length; i++) {
       const segment = snakeBody[i];
       const segmentElement = document.createElement("div");
-      segmentElement.className = " prueba absolute w-8 h-8 rounded-full";
+      segmentElement.className =
+        "absolute w-8 h-8 rounded-full bg-personalized2";
       segmentElement.style.left = segment.x + "px";
       segmentElement.style.top = segment.y + "px";
       snakeBodyContainer.appendChild(segmentElement);
@@ -103,6 +126,46 @@ function updateSnakePosition() {
       snakeBody[i].y = snakeBody[i - 1].y;
     }
     snakeBody[0] = { x: snakeX, y: snakeY };
+  }
+}
+function clearObstacles() {
+  const obstacleElements1 =
+    gameContainer.querySelectorAll(".obstacle-vertical");
+  const obstacleElements2 = gameContainer.querySelectorAll(
+    ".obstacle-horizontal"
+  );
+
+  obstacleElements1.forEach((obstacleElement) => {
+    gameContainer.removeChild(obstacleElement);
+  });
+
+  obstacleElements2.forEach((obstacleElement) => {
+    gameContainer.removeChild(obstacleElement);
+  });
+
+  obstacles = [];
+}
+
+function createObstacle() {
+  const obstacleX = Math.floor(Math.random() * (boardWidth / 20)) * 20;
+  const obstacleY = Math.floor(Math.random() * (boardHeight / 20)) * 20;
+
+  const newobstacleVertical = document.createElement("div");
+  const newobstacleHorizontal = document.createElement("div");
+  if (level % 2 === 0) {
+    newobstacleVertical.className = "obstacle-vertical";
+    newobstacleVertical.style.left = obstacleX + "px";
+    newobstacleVertical.style.top = obstacleY + "px";
+
+    gameContainer.appendChild(newobstacleVertical);
+    obstacles.push(newobstacleVertical);
+  } else {
+    newobstacleHorizontal.className = "obstacle-horizontal";
+    newobstacleHorizontal.style.left = obstacleX + "px";
+    newobstacleHorizontal.style.top = obstacleY + "px";
+
+    gameContainer.appendChild(newobstacleHorizontal);
+    obstacles.push(newobstacleHorizontal);
   }
 }
 
@@ -137,8 +200,7 @@ function growSnake() {
   eatSound.play();
 }
 
-function snakeMovement(){
-
+function snakeMovement() {
   if (direction === "up") {
     snakeY -= 20;
     snake.classList.remove("rotate-0", "rotate-90", "rotate-90");
@@ -176,7 +238,7 @@ function handleScreenTouch(d) {
   gameLoop();
 }
 
-function handleKeyDown(event){
+function handleKeyDown(event) {
   if (!collision) {
     if (!gameStarted) {
       gameStarted = true;
@@ -192,20 +254,20 @@ function handleKeyDown(event){
     } else if (event.key === "ArrowRight" && direction !== "left") {
       direction = "right";
     }
-  if(!keyIsPressed){
-   keyIsPressed = true
-    keyPressTimeout = setTimeout(() => {
-      increaseGameSpeed();
-      increaseGameSpeedExecuted = true;
-    }, 100); 
-}}
+    if (!keyIsPressed) {
+      keyIsPressed = true;
+      keyPressTimeout = setTimeout(() => {
+        increaseGameSpeed();
+        increaseGameSpeedExecuted = true;
+      }, 100);
+    }
+  }
 }
 
 function handleKeyUp() {
-  if(keyIsPressed){
-  clearTimeout(keyPressTimeout);
-  keyIsPressed = false;
- 
+  if (keyIsPressed) {
+    clearTimeout(keyPressTimeout);
+    keyIsPressed = false;
   }
   if (increaseGameSpeedExecuted) {
     restoreOriginalGameSpeed();
@@ -214,13 +276,12 @@ function handleKeyUp() {
 }
 
 function increaseGameSpeed() {
-  speedGame = frameInterval
-frameInterval = 30
-
+  speedGame = frameInterval;
+  frameInterval = 30;
 }
 
 function restoreOriginalGameSpeed() {
-frameInterval = speedGame
+  frameInterval = speedGame;
 }
 
 function resetGame() {
@@ -236,6 +297,8 @@ function resetGame() {
   snake.style.top = snakeY + "px";
   updateSnakePosition();
   updateFoodPosition();
+  clearObstacles();
+  console.log(obstacles);
 }
 
 function openOrCloseModal() {
@@ -246,9 +309,22 @@ function openOrCloseModal() {
   }
   addScore();
 }
+function checkWinner() {
+  const totalCells = (boardWidth / 20) * (boardHeight / 20);
+  const occupiedCells = snakeBody.length + obstacles.length;
+
+  if (occupiedCells >= totalCells) {
+    collision = true;
+    openOrCloseModal();
+
+    alert("¡Felicidades! Has ganado el juego.");
+
+    resetGame();
+  }
+}
 
 function gameOver() {
-  if (isCollisionWithBoard() || isSelfCollision()) {
+  if (isCollisionWithBoard() || isSelfCollision() || checkObstacleCollision()) {
     collision = true;
     openOrCloseModal();
     gameOverSound.play();
@@ -260,25 +336,23 @@ function gameLoop(timestamp) {
   if (!collision) {
     if (timestamp - lastTimestamp >= frameInterval) {
       lastTimestamp = timestamp;
-      
+
       gameOver();
-  
-    snakeMovement()
-  
+      snakeMovement();
+
       if (snakeX === foodX && snakeY === foodY) {
         growSnake();
         updateFoodPosition();
       }
-  
       updateSnakePosition();
+      checkWinner();
     }
 
     requestAnimationFrame(gameLoop);
   }
- 
 }
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyDown);
 document.addEventListener("keyup", handleKeyUp);
-window.addEventListener('resize', calculateBoardSize);
+window.addEventListener("resize", calculateBoardSize);

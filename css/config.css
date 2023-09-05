@@ -7,6 +7,7 @@ body {
   margin: 0;
   background-color: #f0f0f0;
   padding: 0;
+  overflow: hidden;
 }
 
 h1 {
@@ -78,19 +79,33 @@ h1 {
 .food {
   width: 1.5rem;
   height: 1.5rem;
-  background-color: red;
   position: absolute;
   border-radius: 99px;
   transition: left 0.2s ease, top 0.2s ease, transform 0.2s ease;
   animation: scaleAnimation 1s infinite;
 }
-
-.prueba{
-background-image: url("../assets/images/7245677.jpg");
-background-size: cover;
+.obstacle-vertical {
+  width: 2px;
+  height: 5rem;
+  position: absolute;
+  background-color: black;
+}
+.obstacle-horizontal {
+  width: 5rem;
+  height: 2px;
+  position: absolute;
+  background-color: black;
 }
 
 .svg-element {
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
 }
-
+#video-background {
+  position: fixed;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
