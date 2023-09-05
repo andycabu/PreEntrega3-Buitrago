@@ -78,19 +78,23 @@ h1 {
 .food {
   width: 1.5rem;
   height: 1.5rem;
-  background-color: red;
   position: absolute;
   border-radius: 99px;
   transition: left 0.2s ease, top 0.2s ease, transform 0.2s ease;
   animation: scaleAnimation 1s infinite;
 }
+.obstacle {
+  width: 2px;
+  height: 5rem;
+  position: absolute;
+  background-color: black;
+}
 
-.prueba{
-background-image: url("../assets/images/7245677.jpg");
-background-size: cover;
+.prueba {
+  background-image: url("../assets/images/7245677.jpg");
+  background-size: cover;
 }
 
 .svg-element {
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
 }
-

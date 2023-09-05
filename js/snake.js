@@ -13,11 +13,14 @@ const levelFinalDisplay = document.getElementById("levelFinalDisplay");
 const eatSound = document.getElementById("eatSound");
 const gameOverSound = document.getElementById("gameOverSound");
 const levelUpSound = document.getElementById("levelUpSound");
+const newObstacle = document.createElement("div");
 
 let snakeX = 0;
 let snakeY = 0;
 let foodX = 0;
 let foodY = 0;
+let obstacleX = 0;
+let obstacleY = 0;
 let snakeBody = [];
 let direction = "";
 let gameStarted = false;
@@ -29,24 +32,25 @@ let level = 0;
 let board = window.getComputedStyle(gameContainer);
 let height = (parseInt(board.height) / screenHeight) * 100;
 let width = (parseInt(board.width) / screenWidth) * 100;
-let boardWidth = (screenWidth * (width / 100))-20
-let boardHeight = (screenHeight * (height / 100))-20
+let boardWidth = screenWidth * (width / 100) - 20;
+let boardHeight = screenHeight * (height / 100) - 20;
 let touchStartX = 0;
 let touchStartY = 0;
-let keyPressTimeout 
+let keyPressTimeout;
 let keyIsPressed = false;
 let increaseGameSpeedExecuted = false;
-let speedGame = 0
+let speedGame = 0;
+let obstacles = [];
 
 function levelPop() {
   if (level >= 1) {
     popElement.classList.remove("hidden");
-    popElement.classList.add("flex")
+    popElement.classList.add("flex");
     setTimeout(() => {
       popElement.classList.add("animate-fade-out");
       setTimeout(() => {
         popElement.classList.add("hidden");
-        popElement.classList.remove("flex")
+        popElement.classList.remove("flex");
         popElement.classList.remove("animate-fade-out");
       }, 300);
     }, 3000);
@@ -55,11 +59,11 @@ function levelPop() {
 }
 
 function calculateBoardSize() {
-  board 
-  height 
-  width 
-  boardWidth 
-  boardHeight 
+  board;
+  height;
+  width;
+  boardWidth;
+  boardHeight;
 }
 
 function playAgain() {
@@ -77,9 +81,12 @@ function velocityGame() {
 
 function levelGame() {
   if (score % 100 == 0) {
-    level = level + 1;
+    level++;
     levelUpSound.play();
     levelPop();
+    if (level >= 1) {
+      createObstacle();
+    }
   }
 }
 
@@ -105,11 +112,46 @@ function updateSnakePosition() {
     snakeBody[0] = { x: snakeX, y: snakeY };
   }
 }
+function clearObstacles() {
+  const obstacleElements = gameContainer.querySelectorAll(".obstacle");
+  obstacleElements.forEach((obstacleElement) => {
+    gameContainer.removeChild(obstacleElement);
+  });
+  obstacles = [];
+}
+function createObstacle() {
+  obstacleX = Math.floor(Math.random() * (boardWidth / 20)) * 20;
+  obstacleY = Math.floor(Math.random() * (boardHeight / 80)) * 80;
+
+  newObstacle.className = "obstacle";
+  newObstacle.style.left = obstacleX + "px";
+  newObstacle.style.top = obstacleY + "px";
+
+  gameContainer.appendChild(newObstacle);
+  obstacles.push(newObstacle);
+}
 
 function isCollisionWithBoard() {
   return (
     snakeX < 0 || snakeY < 0 || snakeX >= boardWidth || snakeY >= boardHeight
   );
+}
+function isCollisionWithObstacle() {
+  for (let i = 0; i < obstacles.length; i++) {
+    const obstacleLeft = Math.round(parseFloat(obstacles[i].style.left));
+    const obstacleTop = Math.round(parseFloat(obstacles[i].style.top));
+
+    const obstacleBottom = obstacleTop + 80;
+
+    if (
+      snakeX === obstacleLeft &&
+      snakeY >= obstacleTop &&
+      snakeY <= obstacleBottom
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function isSelfCollision() {
@@ -137,8 +179,7 @@ function growSnake() {
   eatSound.play();
 }
 
-function snakeMovement(){
-
+function snakeMovement() {
   if (direction === "up") {
     snakeY -= 20;
     snake.classList.remove("rotate-0", "rotate-90", "rotate-90");
@@ -176,7 +217,7 @@ function handleScreenTouch(d) {
   gameLoop();
 }
 
-function handleKeyDown(event){
+function handleKeyDown(event) {
   if (!collision) {
     if (!gameStarted) {
       gameStarted = true;
@@ -192,20 +233,20 @@ function handleKeyDown(event){
     } else if (event.key === "ArrowRight" && direction !== "left") {
       direction = "right";
     }
-  if(!keyIsPressed){
-   keyIsPressed = true
-    keyPressTimeout = setTimeout(() => {
-      increaseGameSpeed();
-      increaseGameSpeedExecuted = true;
-    }, 100); 
-}}
+    if (!keyIsPressed) {
+      keyIsPressed = true;
+      keyPressTimeout = setTimeout(() => {
+        increaseGameSpeed();
+        increaseGameSpeedExecuted = true;
+      }, 100);
+    }
+  }
 }
 
 function handleKeyUp() {
-  if(keyIsPressed){
-  clearTimeout(keyPressTimeout);
-  keyIsPressed = false;
- 
+  if (keyIsPressed) {
+    clearTimeout(keyPressTimeout);
+    keyIsPressed = false;
   }
   if (increaseGameSpeedExecuted) {
     restoreOriginalGameSpeed();
@@ -214,13 +255,12 @@ function handleKeyUp() {
 }
 
 function increaseGameSpeed() {
-  speedGame = frameInterval
-frameInterval = 30
-
+  speedGame = frameInterval;
+  frameInterval = 30;
 }
 
 function restoreOriginalGameSpeed() {
-frameInterval = speedGame
+  frameInterval = speedGame;
 }
 
 function resetGame() {
@@ -236,6 +276,7 @@ function resetGame() {
   snake.style.top = snakeY + "px";
   updateSnakePosition();
   updateFoodPosition();
+  clearObstacles();
 }
 
 function openOrCloseModal() {
@@ -248,7 +289,11 @@ function openOrCloseModal() {
 }
 
 function gameOver() {
-  if (isCollisionWithBoard() || isSelfCollision()) {
+  if (
+    isCollisionWithBoard() ||
+    isSelfCollision() ||
+    isCollisionWithObstacle()
+  ) {
     collision = true;
     openOrCloseModal();
     gameOverSound.play();
@@ -260,25 +305,24 @@ function gameLoop(timestamp) {
   if (!collision) {
     if (timestamp - lastTimestamp >= frameInterval) {
       lastTimestamp = timestamp;
-      
+
       gameOver();
-  
-    snakeMovement()
-  
+
+      snakeMovement();
+
       if (snakeX === foodX && snakeY === foodY) {
         growSnake();
         updateFoodPosition();
       }
-  
+
       updateSnakePosition();
     }
 
     requestAnimationFrame(gameLoop);
   }
- 
 }
 
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyDown);
 document.addEventListener("keyup", handleKeyUp);
-window.addEventListener('resize', calculateBoardSize);
+window.addEventListener("resize", calculateBoardSize);
