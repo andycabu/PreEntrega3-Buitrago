@@ -7,6 +7,7 @@ body {
   margin: 0;
   background-color: #f0f0f0;
   padding: 0;
+  overflow: hidden;
 }
 
 h1 {
@@ -96,11 +97,15 @@ h1 {
   background-color: black;
 }
 
-.prueba {
-  background-image: url("../assets/images/7245677.jpg");
-  background-size: cover;
-}
-
 .svg-element {
   transition: transform 0.2s ease-in-out;
+}
+#video-background {
+  position: fixed;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
 }

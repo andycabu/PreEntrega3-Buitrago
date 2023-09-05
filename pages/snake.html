@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
+    <video autoplay muted loop id="video-background">
+      <source src="../assets/videos/background.mp4" type="video/mp4" />
+    </video>
     <audio id="eatSound" src="../assets/sounds/Eating.mp3"></audio>
     <audio id="gameOverSound" src="../assets/sounds/gameOver.mp3"></audio>
     <audio id="levelUpSound" src="../assets/sounds/subirNivel.mp3"></audio>
@@ -30,7 +33,7 @@
 
         <div
           id="game-container"
-          class="relative border-emerald-400 border-2 w-1/2 h-1/2 max-[768px]:w-[90%] max-[768px]:h-[100%]">
+          class="relative w-1/2 h-1/2 max-[768px]:w-[90%] max-[768px]:h-[100%] shadow-3xl bg-personalized rounded-xl">
           <div class="flex">
             <svg
               id="snake"
