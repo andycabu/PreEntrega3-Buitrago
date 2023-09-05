@@ -2762,9 +2762,16 @@ h1 {
   animation: scaleAnimation 1s infinite;
 }
 
-.obstacle {
+.obstacle-vertical {
   width: 2px;
   height: 5rem;
+  position: absolute;
+  background-color: black;
+}
+
+.obstacle-horizontal {
+  width: 5rem;
+  height: 2px;
   position: absolute;
   background-color: black;
 }

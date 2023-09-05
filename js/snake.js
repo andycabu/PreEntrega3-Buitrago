@@ -13,14 +13,11 @@ const levelFinalDisplay = document.getElementById("levelFinalDisplay");
 const eatSound = document.getElementById("eatSound");
 const gameOverSound = document.getElementById("gameOverSound");
 const levelUpSound = document.getElementById("levelUpSound");
-const newObstacle = document.createElement("div");
 
 let snakeX = 0;
 let snakeY = 0;
 let foodX = 0;
 let foodY = 0;
-let obstacleX = 0;
-let obstacleY = 0;
 let snakeBody = [];
 let direction = "";
 let gameStarted = false;
@@ -41,6 +38,24 @@ let keyIsPressed = false;
 let increaseGameSpeedExecuted = false;
 let speedGame = 0;
 let obstacles = [];
+
+function checkObstacleCollision() {
+  for (let i = 0; i < obstacles.length; i++) {
+    const obstacle = obstacles[i];
+    const obstacleRect = obstacle.getBoundingClientRect();
+    const snakeRect = snake.getBoundingClientRect();
+
+    if (
+      snakeRect.left < obstacleRect.right &&
+      snakeRect.right > obstacleRect.left &&
+      snakeRect.top < obstacleRect.bottom &&
+      snakeRect.bottom > obstacleRect.top
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function levelPop() {
   if (level >= 1) {
@@ -84,7 +99,7 @@ function levelGame() {
     level++;
     levelUpSound.play();
     levelPop();
-    if (level >= 1) {
+    if (level >= 5) {
       createObstacle();
     }
   }
@@ -113,45 +128,50 @@ function updateSnakePosition() {
   }
 }
 function clearObstacles() {
-  const obstacleElements = gameContainer.querySelectorAll(".obstacle");
-  obstacleElements.forEach((obstacleElement) => {
+  const obstacleElements1 =
+    gameContainer.querySelectorAll(".obstacle-vertical");
+  const obstacleElements2 = gameContainer.querySelectorAll(
+    ".obstacle-horizontal"
+  );
+
+  obstacleElements1.forEach((obstacleElement) => {
     gameContainer.removeChild(obstacleElement);
   });
+
+  obstacleElements2.forEach((obstacleElement) => {
+    gameContainer.removeChild(obstacleElement);
+  });
+
   obstacles = [];
 }
+
 function createObstacle() {
-  obstacleX = Math.floor(Math.random() * (boardWidth / 20)) * 20;
-  obstacleY = Math.floor(Math.random() * (boardHeight / 80)) * 80;
+  const obstacleX = Math.floor(Math.random() * (boardWidth / 20)) * 20;
+  const obstacleY = Math.floor(Math.random() * (boardHeight / 20)) * 20;
 
-  newObstacle.className = "obstacle";
-  newObstacle.style.left = obstacleX + "px";
-  newObstacle.style.top = obstacleY + "px";
+  const newobstacleVertical = document.createElement("div");
+  const newobstacleHorizontal = document.createElement("div");
+  if (level % 2 === 0) {
+    newobstacleVertical.className = "obstacle-vertical";
+    newobstacleVertical.style.left = obstacleX + "px";
+    newobstacleVertical.style.top = obstacleY + "px";
 
-  gameContainer.appendChild(newObstacle);
-  obstacles.push(newObstacle);
+    gameContainer.appendChild(newobstacleVertical);
+    obstacles.push(newobstacleVertical);
+  } else {
+    newobstacleHorizontal.className = "obstacle-horizontal";
+    newobstacleHorizontal.style.left = obstacleX + "px";
+    newobstacleHorizontal.style.top = obstacleY + "px";
+
+    gameContainer.appendChild(newobstacleHorizontal);
+    obstacles.push(newobstacleHorizontal);
+  }
 }
 
 function isCollisionWithBoard() {
   return (
     snakeX < 0 || snakeY < 0 || snakeX >= boardWidth || snakeY >= boardHeight
   );
-}
-function isCollisionWithObstacle() {
-  for (let i = 0; i < obstacles.length; i++) {
-    const obstacleLeft = Math.round(parseFloat(obstacles[i].style.left));
-    const obstacleTop = Math.round(parseFloat(obstacles[i].style.top));
-
-    const obstacleBottom = obstacleTop + 80;
-
-    if (
-      snakeX === obstacleLeft &&
-      snakeY >= obstacleTop &&
-      snakeY <= obstacleBottom
-    ) {
-      return true;
-    }
-  }
-  return false;
 }
 
 function isSelfCollision() {
@@ -277,6 +297,7 @@ function resetGame() {
   updateSnakePosition();
   updateFoodPosition();
   clearObstacles();
+  console.log(obstacles);
 }
 
 function openOrCloseModal() {
@@ -287,13 +308,22 @@ function openOrCloseModal() {
   }
   addScore();
 }
+function checkWinner() {
+  const totalCells = (boardWidth / 20) * (boardHeight / 20);
+  const occupiedCells = snakeBody.length + obstacles.length;
+
+  if (occupiedCells >= totalCells) {
+    collision = true;
+    openOrCloseModal();
+
+    alert("¡Felicidades! Has ganado el juego.");
+
+    resetGame();
+  }
+}
 
 function gameOver() {
-  if (
-    isCollisionWithBoard() ||
-    isSelfCollision() ||
-    isCollisionWithObstacle()
-  ) {
+  if (isCollisionWithBoard() || isSelfCollision() || checkObstacleCollision()) {
     collision = true;
     openOrCloseModal();
     gameOverSound.play();
@@ -307,15 +337,14 @@ function gameLoop(timestamp) {
       lastTimestamp = timestamp;
 
       gameOver();
-
       snakeMovement();
 
       if (snakeX === foodX && snakeY === foodY) {
         growSnake();
         updateFoodPosition();
       }
-
       updateSnakePosition();
+      checkWinner();
     }
 
     requestAnimationFrame(gameLoop);
