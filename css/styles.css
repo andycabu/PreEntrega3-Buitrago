@@ -2888,6 +2888,12 @@ h1 {
   text-align: center;
 }
 
+@media (max-width: 1000px) {
+  .max-\[1000px\]\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .max-\[768px\]\:top-\[13\%\] {
     top: 13%;
@@ -2909,8 +2915,8 @@ h1 {
     height: 90vh;
   }
 
-  .max-\[768px\]\:max-h-screen {
-    max-height: 100vh;
+  .max-\[768px\]\:h-auto {
+    height: auto;
   }
 
   .max-\[768px\]\:max-h-fit {

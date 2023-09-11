@@ -39,6 +39,16 @@ let increaseGameSpeedExecuted = false;
 let speedGame = 0;
 let obstacles = [];
 
+function playerName() {
+  let playerName = prompt("¿Cuál es tu nombre?").toLocaleUpperCase();
+  let player = document.getElementById("name");
+
+  if (playerName != null) {
+    // Agregar el texto ingresado al elemento p
+    player.textContent += " " + playerName;
+  }
+}
+
 function checkObstacleCollision() {
   for (let i = 0; i < obstacles.length; i++) {
     const obstacle = obstacles[i];
@@ -352,6 +362,7 @@ function gameLoop(timestamp) {
   }
 }
 
+playerName();
 updateFoodPosition();
 document.addEventListener("keydown", handleKeyDown);
 document.addEventListener("keyup", handleKeyUp);
