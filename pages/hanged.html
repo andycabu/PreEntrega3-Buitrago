@@ -9,6 +9,7 @@
   <body>
     <section class="h-[100%] flex flex-col justify-center items-center gap-4">
       <div class="text-2xl mb-3" id="word-display"></div>
+      <h3 class="text-xl font-bold" id="name"></h3>
       <div class="text-lg mb-3" id="guesses">Tus intentos:</div>
       <div class="flex items-center">
         <input
@@ -17,19 +18,22 @@
           type="text"
           id="letter-input"
           placeholder="Ingresa una letra"
-          oninput="checkInput()" />
+          oninput="checkInput()"
+        />
         <div>
           <button
             class="button ml-4 py-2 px-8 text-white transition duration-300 ease bg-emerald-200 cursor-pointer rounded-full"
             id="guess-button"
-            disabled>
+            disabled
+          >
             Adivinar
           </button>
         </div>
       </div>
       <a
         href="../index.html"
-        class="ml-4 text-white transition duration-300 py-[0.7rem] px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600">
+        class="ml-4 text-white transition duration-300 py-[0.7rem] px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
+      >
         Atras
       </a>
     </section>

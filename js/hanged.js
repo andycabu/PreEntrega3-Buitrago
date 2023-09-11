@@ -8,6 +8,15 @@ const guessesDisplay = document.getElementById("guesses");
 const letterInput = document.getElementById("letter-input");
 const guessButton = document.getElementById("guess-button");
 
+function playerName() {
+  let playerName = prompt("¿Cuál es tu nombre?").toLocaleUpperCase();
+  let player = document.getElementById("name");
+
+  if (playerName != null) {
+    // Agregar el texto ingresado al elemento p
+    player.textContent += " " + playerName;
+  }
+}
 function displayWord() {
   wordDisplay.textContent = currentWord
     .split("")
@@ -76,5 +85,6 @@ function resetGame() {
 
 guessButton.addEventListener("click", checkGuess);
 
+playerName();
 displayWord();
 updateGuesses();
