@@ -2909,10 +2909,6 @@ h1 {
     height: 90vh;
   }
 
-  .max-\[768px\]\:max-h-screen {
-    max-height: 100vh;
-  }
-
   .max-\[768px\]\:max-h-fit {
     max-height: -moz-fit-content;
     max-height: fit-content;
