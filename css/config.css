@@ -109,3 +109,35 @@ h1 {
   min-height: 100%;
   z-index: -1;
 }
+
+.container {
+  position: absolute;
+  height: 300px;
+  width: 600px;
+  top: 60px;
+  left: calc(50% - 300px);
+  display: flex;
+}
+
+.card-index {
+  @apply flex w-[400px] h-[500px] rounded-lg relative left-0 cursor-pointer transition ease-out duration-500 shadow-custom;
+}
+
+.card-index:not(:first-child) {
+  margin-left: -50px;
+}
+
+.card-index:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+}
+
+.card-index:hover ~ .card-index {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}
+
+.title {
+  @apply text-white font-bold text-2xl absolute left-5 top-5;
+}
