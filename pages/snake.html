@@ -27,14 +27,22 @@
       <div
         class="w-full h-full flex flex-col items-center justify-center gap-1"
       >
-        <h3 class="text-xl font-bold" id="name"></h3>
+        <div id="myModal" class="modal-name">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ingresa tu nombre</h2>
+            <div>
+              <input type="text" id="nameInput" class="input-name" />
+              <button class="button" id="saveName">Guardar</button>
+            </div>
+          </div>
+        </div>
+        <p>Tu nombre es: <span id="name"></span></p>
         <p id="scoreDisplay">Tu puntuacion es de: 0</p>
-        <a
-          href="../index.html"
-          class="ml-4 text-white transition duration-300 py-2 px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
-        >
-          Atras
-        </a>
+        <div class="flex gap-8">
+          <a href="../index.html" class="button"> Atras </a>
+          <button id="openModal" class="button">Nombre</button>
+        </div>
 
         <div
           id="game-container"
@@ -298,6 +306,7 @@
         </div>
       </div>
     </div>
+    <script src="/js/main.js"></script>
     <script src="../js/snake.js"></script>
   </body>
 </html>

@@ -11,14 +11,23 @@
       <div
         class="memory-board grid grid-cols-5 max-[768px]:grid-cols-3 gap-4 p-4"
       ></div>
-      <h3 class="text-xl font-bold" id="name"></h3>
-      <a
-        href="../index.html"
-        class="text-white transition duration-300 py-2 px-8 ease bg-emerald-200 cursor-pointer rounded-full hover:bg-emerald-600"
-      >
-        Atras
-      </a>
+      <div id="myModal" class="modal-name">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Ingresa tu nombre</h2>
+          <div>
+            <input type="text" id="nameInput" class="input-name" />
+            <button class="button" id="saveName">Guardar</button>
+          </div>
+        </div>
+      </div>
+      <p>Tu nombre es: <span id="name"></span></p>
+      <div class="flex gap-8">
+        <a href="../index.html" class="button"> Atras </a>
+        <button id="openModal" class="button">Nombre</button>
+      </div>
     </section>
+    <script src="/js/main.js"></script>
     <script src="/js/memorie.js"></script>
   </body>
 </html>

@@ -20,15 +20,6 @@ const cards = [
   "/assets/images/pirata-con-perro.png",
   "/assets/images/pirata-con-perro.png",
 ];
-function playerName() {
-  let playerName = prompt("¿Cuál es tu nombre?").toLocaleUpperCase();
-  let player = document.getElementById("name");
-
-  if (playerName != null) {
-    // Agregar el texto ingresado al elemento p
-    player.textContent += " " + playerName;
-  }
-}
 
 const memoryBoard = document.querySelector(".memory-board");
 let flippedCards = [];
@@ -109,5 +100,4 @@ function initializeGame(cards) {
   });
 }
 
-playerName();
 initializeGame(cards);
