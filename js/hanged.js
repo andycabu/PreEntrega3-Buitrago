@@ -1,12 +1,35 @@
-const words = ["javascript", "programacion", "html", "css", "desarrollo"];
-let currentWord = words[Math.floor(Math.random() * words.length)];
+const apiUrl = "https://api.api-ninjas.com/v1/randomword";
+const apiKey = "k8hrYeMeVLMNbwzRVhVr+Q==A2NTU6Qtl0jcvjTI";
+let word;
+let currentWord = "";
 let guessedLetters = [];
 let remainingAttempts = 6;
+const Swal = require("sweetalert2");
+
+console.log(Swal);
 
 const wordDisplay = document.getElementById("word-display");
 const guessesDisplay = document.getElementById("guesses");
 const letterInput = document.getElementById("letter-input");
 const guessButton = document.getElementById("guess-button");
+
+async function getWord() {
+  try {
+    const res = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "X-Api-Key": apiKey,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    word = data.word;
+    currentWord = word.toLowerCase();
+    displayWord();
+  } catch (error) {
+    console.error("Error obteniendo la palabra:", error);
+  }
+}
 
 function displayWord() {
   wordDisplay.textContent = currentWord
@@ -18,11 +41,13 @@ function displayWord() {
 function updateGuesses() {
   guessesDisplay.textContent = `Tus intentos: ${guessedLetters.join(", ")}`;
 }
+
 function buttonDisabled() {
   guessButton.setAttribute("disabled", "true");
   guessButton.classList.remove("bg-emerald-400");
   guessButton.classList.add("bg-emerald-200");
 }
+
 function checkInput() {
   if (letterInput.value.length === 1) {
     guessButton.removeAttribute("disabled");
@@ -39,7 +64,7 @@ function checkGuess() {
     guessedLetters.push(letter);
     if (!currentWord.includes(letter)) {
       remainingAttempts--;
-      guessButton.addEventListener("click", buttonDisabled());
+      buttonDisabled();
     }
     displayWord();
     updateGuesses();
@@ -57,24 +82,23 @@ function checkGameStatus() {
       )
   ) {
     if (remainingAttempts > 0) {
-      alert("¡Ganaste!");
+      Swal.fire("¡Ganaste!", "", "success");
     } else {
-      alert("Perdiste. La palabra era: " + currentWord);
+      Swal.fire("Perdiste", `La palabra era: ${currentWord}`, "error");
     }
     resetGame();
   }
 }
 
 function resetGame() {
-  currentWord = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
   remainingAttempts = 6;
-  displayWord();
+  getWord();
   buttonDisabled();
   updateGuesses();
 }
 
 guessButton.addEventListener("click", checkGuess);
+letterInput.addEventListener("input", checkInput);
 
-displayWord();
-updateGuesses();
+getWord();

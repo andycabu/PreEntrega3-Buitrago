@@ -298,7 +298,6 @@ function resetGame() {
   updateSnakePosition();
   updateFoodPosition();
   clearObstacles();
-  console.log(obstacles);
 }
 
 function openOrCloseModal() {
