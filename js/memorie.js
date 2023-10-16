@@ -76,7 +76,7 @@ function checkForMatch() {
     flippedCards = [];
 
     if (matchedCards.length === cards.length) {
-      alert("¡Has ganado!");
+      Swal.fire("¡Ganaste!", "", "success");
       resetGame();
     }
   } else {

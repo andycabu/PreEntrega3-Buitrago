@@ -4,9 +4,6 @@ let word;
 let currentWord = "";
 let guessedLetters = [];
 let remainingAttempts = 6;
-const Swal = require("sweetalert2");
-
-console.log(Swal);
 
 const wordDisplay = document.getElementById("word-display");
 const guessesDisplay = document.getElementById("guesses");

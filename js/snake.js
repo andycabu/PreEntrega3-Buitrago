@@ -315,8 +315,7 @@ function checkWinner() {
   if (occupiedCells >= totalCells) {
     collision = true;
     openOrCloseModal();
-
-    alert("¡Felicidades! Has ganado el juego.");
+    Swal.fire("¡Felicidades! Has ganado el juego.", "", "success");
 
     resetGame();
   }
